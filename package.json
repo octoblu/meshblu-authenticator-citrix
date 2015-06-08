@@ -4,6 +4,7 @@
   "description": "Meshblu Authenticator - Citrix Authentication System",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,6 +20,7 @@
   "devDependencies": {
     "chai": "^3.0.0",
     "coffee-script": "^1.9.3",
+    "debug": "^2.2.0",
     "mocha": "^2.2.5",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.8.0"
@@ -39,6 +41,7 @@
     "meshblu-authenticator-core": "^2.0.0",
     "meshblu-db": "^2.1.0",
     "morgan": "^1.5.3",
-    "passport": "^0.2.2"
+    "passport": "^0.2.2",
+    "passport-oauth2": "^1.1.2"
   }
 }
