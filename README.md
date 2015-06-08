@@ -1,2 +1,2 @@
-# meshblu-cas-authenticator
+# meshblu-citrix-authenticator
 Meshblu Authenticator - Citrix Authentication System 
