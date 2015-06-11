@@ -54,29 +54,20 @@ function Strategy(options, verify) {
 
   this._oauth2.getOAuthAccessToken = function(code, params, callback) {
     var params= params || {};
-    // params['client_id'] = this._clientId;
-    // params['client_secret'] = this._clientSecret;
     var codeParam = (params.grant_type === 'refresh_token') ? 'refresh_token' : 'code';
     params[codeParam]= code;
 
-    var post_data= querystring.stringify( params );
     var requestHeader = {};
+    var post_data= querystring.stringify( params );
 
     var token =  this._clientId + ':' + this._clientSecret;
-    console.log('Args',code, params, this);
     var encodedToken = new Buffer(token).toString("base64");
     requestHeader['Authorization'] = 'Basic ' + encodedToken;
     requestHeader['Content-Type'] = 'application/x-www-form-urlencoded';
 
-    console.log('aaccessTokenUrl', post_data);
-    console.log('post_data', post_data);
-    console.log('requestHeader', requestHeader);
-
     this._request("POST", this._getAccessTokenUrl(), requestHeader, post_data, null, function(error, data, response) {
-      console.log('Attempting to get token from url', data, response, error);
       if( error )  callback(error);
       else {
-        console.log('got token', data);
         var results;
         try {
           // As of http://tools.ietf.org/html/draft-ietf-oauth-v2-07
@@ -96,6 +87,12 @@ function Strategy(options, verify) {
         callback(null, access_token, refresh_token, results); // callback results =-=
       }
     });
+
+    var generateAuthToken = function(clientId, clientSecret) {
+      var token =  clientId + ':' + clientSecret;
+      token = new Buffer(token).toString("base64");
+      return 'Basic ' + token;
+    }
   }
 }
 
