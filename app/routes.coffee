@@ -8,9 +8,9 @@ class Router
   register: =>
     @app.get  '/', (request, response) => response.status(200).send status: 'online'
 
-    @app.get '/login', @addTokenParam, @storeCallbackUrl, passport.authenticate 'oauth2'
+    @app.get '/login', @addTokenParam, @storeCallbackUrl, passport.authenticate 'citrix'
 
-    @app.get '/oauthcallback', passport.authenticate('oauth2', { failureRedirect: '/login' }), @afterPassportLogin
+    @app.get '/oauthcallback', @beforePassportLogin,  passport.authenticate('citrix', { failureRedirect: '/login' }), @afterPassportLogin
 
   afterPassportLogin: (request, response) =>
     debug 'AfterPassportLogin', request, response
@@ -27,6 +27,10 @@ class Router
 
   defaultRoute: (request, response) =>
     response.render 'index'
+
+  beforePassportLogin: (request, response, next) =>
+    debug 'beforePassportLogin', request.params, request.query
+    next()
 
   addTokenParam: (request, response, next) =>
     if !request.query.response_type?

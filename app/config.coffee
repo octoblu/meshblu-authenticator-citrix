@@ -1,5 +1,6 @@
 passport = require 'passport'
-OAuth2Strategy = require('passport-oauth2').Strategy
+# OAuth2Strategy = require('passport-oauth2').Strategy
+CitrixStrategy = require('passport-citrix').Strategy
 {DeviceAuthenticator} = require 'meshblu-authenticator-core'
 debug = require('debug')('meshblu-citrix-authenticator:config')
 
@@ -16,11 +17,15 @@ class CitrixConfig
 
   register: =>
     debug 'Register with config options', citrixOauthConfig
-    passport.use new OAuth2Strategy citrixOauthConfig, @onAuthentication
+    passport.use new CitrixStrategy citrixOauthConfig, @onAuthentication
 
   onAuthentication: (accessToken, refreshToken, profile, done) =>
-    debug 'onAuthentication', request, accessToken, refreshToken, profile, done
-    profileId = profile?.id
+    debug 'onAuthentication', accessToken, refreshToken, profile, done
+    debug 'Profile', profile
+
+
+
+    profileId = ''
     fakeSecret = 'citrix-authenticator'
     authenticatorUuid = @meshbluJSON.uuid
     authenticatorName = @meshbluJSON.name
@@ -28,7 +33,7 @@ class CitrixConfig
     query = {}
     query[authenticatorUuid + '.id'] = profileId
     device =
-      name: profile.name
+      name: ''
       type: 'octoblu:user'
 
     getDeviceToken = (uuid) =>

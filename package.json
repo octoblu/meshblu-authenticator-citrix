@@ -42,6 +42,7 @@
     "meshblu-db": "^2.1.0",
     "morgan": "^1.5.3",
     "passport": "^0.2.2",
+    "passport-citrix": "^1.1.1",
     "passport-oauth2": "^1.1.2"
   }
 }
