@@ -8,12 +8,11 @@ class Router
   register: =>
     @app.get  '/', (request, response) => response.status(200).send status: 'online'
 
-    @app.get '/login', @addTokenParam, @storeCallbackUrl, passport.authenticate 'citrix'
+    @app.get '/login', @addTokenParam, @storeCallbackUrl, passport.authenticate 'citrix-auth-service'
 
-    @app.get '/oauthcallback', @beforePassportLogin,  passport.authenticate('citrix', { failureRedirect: '/login' }), @afterPassportLogin
+    @app.get '/oauthcallback', passport.authenticate('citrix-auth-service', { failureRedirect: '/login' }), @afterPassportLogin
 
   afterPassportLogin: (request, response) =>
-    debug 'AfterPassportLogin', request, response
     {callbackUrl} = request.cookies
     response.cookie 'callbackUrl', null, maxAge: -1
     return response.status(401).send(new Error 'Invalid User') unless request.user
@@ -27,10 +26,6 @@ class Router
 
   defaultRoute: (request, response) =>
     response.render 'index'
-
-  beforePassportLogin: (request, response, next) =>
-    debug 'beforePassportLogin', request.params, request.query
-    next()
 
   addTokenParam: (request, response, next) =>
     if !request.query.response_type?
