@@ -1,6 +1,6 @@
 {
   "name": "meshblu-citrix-authenticator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Meshblu Authenticator - Citrix Authentication System",
   "main": "index.js",
   "scripts": {
