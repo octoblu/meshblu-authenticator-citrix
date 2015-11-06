@@ -9,13 +9,15 @@ Router       = require './app/routes'
 Config       = require './app/config'
 MeshbluDB    = require 'meshblu-db'
 airbrake     = require('airbrake').createClient process.env.AIRBRAKE_API_KEY
+meshbluHealthcheck = require 'express-meshblu-healthcheck'
 debug        = require('debug')('meshblu-citrix-authenticator:server')
 
-port = process.env.MESHBLU_CITRIX_AUTHENTICATOR_PORT ? 8008
+port = process.env.MESHBLU_CITRIX_AUTHENTICATOR_PORT ? 80 
 
 app = express()
 app.use morgan('dev')
 app.use errorHandler()
+app.use meshbluHealthcheck()
 app.use airbrake.expressHandler()
 app.use bodyParser.json()
 app.use bodyParser.urlencoded(extended: true)
