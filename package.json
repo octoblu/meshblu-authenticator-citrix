@@ -1,6 +1,6 @@
 {
-  "name": "meshblu-citrix-authenticator",
-  "version": "1.0.2",
+  "name": "meshblu-authenticator-citrix",
+  "version": "1.0.3",
   "description": "Meshblu Authenticator - Citrix Authentication System",
   "main": "index.js",
   "scripts": {
@@ -9,14 +9,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/octoblu/meshblu-citrix-authenticator.git"
+    "url": "https://github.com/octoblu/meshblu-authenticator-citrix.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/octoblu/meshblu-citrix-authenticator/issues"
+    "url": "https://github.com/octoblu/meshblu-authenticator-citrix/issues"
   },
-  "homepage": "https://github.com/octoblu/meshblu-citrix-authenticator",
+  "homepage": "https://github.com/octoblu/meshblu-authenticator-citrix",
   "devDependencies": {
     "chai": "^3.0.0",
     "coffee-script": "^1.9.3",
