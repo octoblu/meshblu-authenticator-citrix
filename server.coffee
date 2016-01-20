@@ -7,12 +7,12 @@ session      = require 'cookie-session'
 passport     = require 'passport'
 Router       = require './app/routes'
 Config       = require './app/config'
-MeshbluDB    = require 'meshblu-db'
+MeshbluHttp    = require 'meshblu-Http'
 airbrake     = require('airbrake').createClient process.env.AIRBRAKE_API_KEY
 meshbluHealthcheck = require 'express-meshblu-healthcheck'
 debug        = require('debug')('meshblu-citrix-authenticator:server')
 
-port = process.env.MESHBLU_CITRIX_AUTHENTICATOR_PORT ? 80 
+port = process.env.MESHBLU_CITRIX_AUTHENTICATOR_PORT ? 80
 
 app = express()
 app.use morgan('dev')
@@ -53,12 +53,16 @@ catch
     port:   process.env.MESHBLU_PORT
     name:   'Citrix Authenticator'
 
-meshbludb = new MeshbluDB meshbluJSON
+meshbluHttp = new MeshbluDB meshbluJSON
 
-meshbludb.findOne uuid: meshbluJSON.uuid, (error, device) ->
-  meshbludb.setPrivateKey(device.privateKey) unless meshbludb.privateKey
+meshbluHttp.device meshbluJSON.uuid, (error, device) ->
+  if error?
+    console.error error.message, error.stack
+    process.exit 1
 
-config = new Config meshbludb, meshbluJSON
+  meshbluHttp.setPrivateKey(device.privateKey) unless meshbluHttp.privateKey
+
+config = new Config {meshbluHttp, meshbluJSON}
 config.register()
 
 router = new Router app
