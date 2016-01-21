@@ -7,7 +7,7 @@ session      = require 'cookie-session'
 passport     = require 'passport'
 Router       = require './app/routes'
 Config       = require './app/config'
-MeshbluHttp    = require 'meshblu-Http'
+MeshbluHttp    = require 'meshblu-http'
 airbrake     = require('airbrake').createClient process.env.AIRBRAKE_API_KEY
 meshbluHealthcheck = require 'express-meshblu-healthcheck'
 debug        = require('debug')('meshblu-citrix-authenticator:server')
@@ -53,7 +53,7 @@ catch
     port:   process.env.MESHBLU_PORT
     name:   'Citrix Authenticator'
 
-meshbluHttp = new MeshbluDB meshbluJSON
+meshbluHttp = new MeshbluHttp meshbluJSON
 
 meshbluHttp.device meshbluJSON.uuid, (error, device) ->
   if error?
